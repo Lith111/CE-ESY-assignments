@@ -1,0 +1,63 @@
+===== Circular Buffer created (capacity 20, usable 19) =====
+
+Enter your name: laith
+
+Combined string: "laithCE-ESY"
+
+----- Writing combined string character by character -----
+Written: 'l'
+Buffer content (tail -> head-1): l 
+Written: 'a'
+Buffer content (tail -> head-1): l a 
+Written: 'i'
+Buffer content (tail -> head-1): l a i 
+Written: 't'
+Buffer content (tail -> head-1): l a i t 
+Written: 'h'
+Buffer content (tail -> head-1): l a i t h 
+Written: 'C'
+Buffer content (tail -> head-1): l a i t h C 
+Written: 'E'
+Buffer content (tail -> head-1): l a i t h C E 
+Written: '-'
+Buffer content (tail -> head-1): l a i t h C E - 
+Written: 'E'
+Buffer content (tail -> head-1): l a i t h C E - E 
+Written: 'S'
+Buffer content (tail -> head-1): l a i t h C E - E S 
+Written: 'Y'
+Buffer content (tail -> head-1): l a i t h C E - E S Y 
+
+----- Buffer state after writing combined string -----
+Empty? No - Full? No
+
+----- Reading all characters from buffer -----
+Read: 'l'
+Buffer content (tail -> head-1): a i t h C E - E S Y 
+Read: 'a'
+Buffer content (tail -> head-1): i t h C E - E S Y 
+Read: 'i'
+Buffer content (tail -> head-1): t h C E - E S Y 
+Read: 't'
+Buffer content (tail -> head-1): h C E - E S Y 
+Read: 'h'
+Buffer content (tail -> head-1): C E - E S Y 
+Read: 'C'
+Buffer content (tail -> head-1): E - E S Y 
+Read: 'E'
+Buffer content (tail -> head-1): - E S Y 
+Read: '-'
+Buffer content (tail -> head-1): E S Y 
+Read: 'E'
+Buffer content (tail -> head-1): S Y 
+Read: 'S'
+Buffer content (tail -> head-1): Y 
+Read: 'Y'
+Buffer content (tail -> head-1): (empty)
+
+----- Buffer state after reading -----
+Empty? Yes - Full? No
+✓ Buffer is empty as expected.
+
+----- Additional test: enter a short word (< 19 chars) -----
+Short word: 
