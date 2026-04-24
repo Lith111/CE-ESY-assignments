@@ -1,0 +1,47 @@
+===== Circular Buffer created (capacity 5, usable 4) =====
+
+Enter your name: test
+
+Combined string: "testCE-ESY"
+
+----- Writing combined string character by character -----
+Written: 't'
+Buffer content (tail -> head-1): t 
+Written: 'e'
+Buffer content (tail -> head-1): t e 
+Written: 's'
+Buffer content (tail -> head-1): t e s 
+Written: 't'
+Buffer content (tail -> head-1): t e s t 
+Failed to write 'C' (buffer full, ignoring remaining)
+Buffer content (tail -> head-1): t e s t 
+Failed to write 'E' (buffer full, ignoring remaining)
+Buffer content (tail -> head-1): t e s t 
+Failed to write '-' (buffer full, ignoring remaining)
+Buffer content (tail -> head-1): t e s t 
+Failed to write 'E' (buffer full, ignoring remaining)
+Buffer content (tail -> head-1): t e s t 
+Failed to write 'S' (buffer full, ignoring remaining)
+Buffer content (tail -> head-1): t e s t 
+Failed to write 'Y' (buffer full, ignoring remaining)
+Buffer content (tail -> head-1): t e s t 
+
+----- Buffer state after writing combined string -----
+Empty? No - Full? Yes
+
+----- Reading all characters from buffer -----
+Read: 't'
+Buffer content (tail -> head-1): e s t 
+Read: 'e'
+Buffer content (tail -> head-1): s t 
+Read: 's'
+Buffer content (tail -> head-1): t 
+Read: 't'
+Buffer content (tail -> head-1): (empty)
+
+----- Buffer state after reading -----
+Empty? Yes - Full? No
+✓ Buffer is empty as expected.
+
+----- Additional test: enter a short word (< 4 chars) -----
+Short word: 
