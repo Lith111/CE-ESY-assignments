@@ -111,8 +111,93 @@ Sanfoundry, *Embedded Systems Questions and Answers – Types of Buffers*.
 الرابط: [https://www.sanfoundry.com/embedded-systems-questions-answers-types-buffers/](https://www.sanfoundry.com/embedded-systems-questions-answers-types-buffers/)
 
 ---
+## 10. التطبيق العملي: دوال المخزن المؤقت الدائري الأساسية
 
+تعتمد الدوال التالية على طريقة **N-1** (التضحية بعنصر واحد) للتمييز بين الامتلاء والفراغ، وهي تفترض وجود هيكل `CircularBuffer` يحتوي على الحقول `buffer`، `head`، `tail`، و `maxlen`.  
+جميع العمليات تتم بزمن ثابت O(1) ولا تحتاج إلى إزاحة للبيانات.
+
+---
+
+### 10.1 دالة التهيئة (Initialization)
+تخصص كتلة الذاكرة اللازمة للمصفوفة وتضبط المؤشرات على وضع البداية (المخزن فارغ).
+
+```c
+bool cb_init(CircularBuffer *cb, int size) {
+    // حجز ذاكرة متجاورة بحجم `size` عناصر
+    cb->buffer = (uint8_t*)malloc(size * sizeof(uint8_t));
+    if (cb->buffer == NULL) {
+        return false;   // فشل التخصيص
+    }
+    // ضبط المؤشرين على العنصر 0 (المخزن فارغ الآن)
+    cb->head = 0;
+    cb->tail = 0;
+    cb->maxlen = size;
+    return true;
+}
+```
+---
+
+### 10.2 دالة التحقق من الفراغ.
+تفحص إن كان المخزن لا يحتوي على أي بيانات قابلة للقراءة.
+```c
+bool cb_is_empty(CircularBuffer *cb) {
+    // تساوي head و tail يعني أن جميع البيانات كُتبت ثم قُرئت
+    return (cb->head == cb->tail);
+}
+```
+---
+
+### 10.3 دالة التحقق من الامتلاء (Check Full)
+
+تفحص إن كانت إضافة عنصر جديد ستؤدي إلى الكتابة فوق أقدم عنصر لم يُقرأ.
+```c
+bool cb_is_full(CircularBuffer *cb) {
+    // نحسب الخانة التالية للرأس مع الالتفاف الدائري
+    int next_head = (cb->head + 1) % cb->maxlen;
+    // إذا كانت هذه الخانة هي نفسها tail، فالمخزن ممتلئ
+    return (next_head == cb->tail);
+}
+```
+---
+
+### 10.4 دالة الكتابة / الإدخال (Write / Enqueue)
+
+تضيف عنصراً جديداً إلى المخزن إن توفرت مساحة.
+
+```c
+bool cb_write(CircularBuffer *cb, uint8_t data) {
+    // رفض الكتابة إذا كان المخزن ممتلئاً (سياسة عدم الفوقية)
+    if (cb_is_full(cb)) {
+        return false;
+    }
+    // وضع البيانات في الخانة التي يشير إليها head
+    cb->buffer[cb->head] = data;
+    // تحريك head إلى الخانة التالية دائرياً
+    cb->head = (cb->head + 1) % cb->maxlen;
+    return true;
+}
+```
+---
+
+### 10.5 دالة القراءة / الإخراج (Read / Dequeue)
+تسحب أقدم عنصر من المخزن وتعيده إلى المستخدم.
+
+```c
+bool cb_read(CircularBuffer *cb, uint8_t *data) {
+    // لا توجد بيانات إذا كان المخزن فارغاً
+    if (cb_is_empty(cb)) {
+        return false;
+    }
+    // نسخ أقدم عنصر (عند tail) إلى المتغير المشار إليه بـ data
+    *data = cb->buffer[cb->tail];
+    // تحريك tail إلى الخانة التالية دائرياً
+    cb->tail = (cb->tail + 1) % cb->maxlen;
+    return true;
+}
+```
 ## المراجع
+
+
 1. EmbedJournal. (2024). *Implementing Circular Buffer in C*.  
    [https://embedjournal.com/implementing-circular-buffer-embedded-c/](https://embedjournal.com/implementing-circular-buffer-embedded-c/)
 
