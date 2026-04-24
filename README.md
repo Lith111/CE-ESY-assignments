@@ -92,5 +92,29 @@
 
 ---
 
+## 9. مقارنة بين المخزن المؤقت الخطي والدائري
+يوضح الجدول التالي الفروق الأساسية بين المخزن المؤقت الخطي التقليدي والمخزن المؤقت الدائري من حيث البنية والأداء والإدارة.
+
+| الخاصية | المخزن المؤقت الخطي (Linear Buffer) | المخزن المؤقت الدائري (Circular Buffer) |
+| :--- | :--- | :--- |
+| **هيكل البيانات** | مصفوفة خطية بسيطة. | مصفوفة خطية تُعامل على أنها دائرية. |
+| **مؤشرات التحكم** | مؤشر كتابة واحد (أو مؤشرين للإزاحة). | مؤشران: قراءة (Tail) وكتابة (Head). |
+| **سلوك الكتابة** | يُضاف العنصر ويتحرك المؤشر للأمام. عند الامتلاء، يتوقف وتفقد البيانات. | يُضاف العنصر ويتحرك المؤشر للأمام ويلتف. عند الامتلاء، يمكنه الكتابة فوق الأقدم. |
+| **سلوك القراءة** | تُقرأ من البداية مع إزاحة لاحقة لجميع العناصر (مكلف). | تُقرأ من مؤشر الذيل مع تحريكه فقط (فعال). |
+| **إدارة المساحة** | غير فعال. يتطلب إزاحة العناصر أو إعادة ضبط المؤشرات. | فعال جداً. يُعيد استخدام المساحات الفارغة تلقائياً (Overwriting). |
+| **الأخطاء الشائعة** | **Overrun:** فقدان البيانات الجديدة عند الامتلاء.<br>**Underrun:** تقديم بيانات قديمة عند الفراغ. | مشكلة التمييز بين الامتلاء والفراغ (تُحل بتقنيات N-1 أو العداد). |
+| **التعقيد** | بسيط جداً في التنفيذ. | أكثر تعقيداً في الفهم والتنفيذ. |
+| **الأداء** | بطيء بسبب عمليات الإزاحة (O(n)). | سريع؛ جميع العمليات بزمن ثابت (O(1)). |
+
+* **مصدر هذه المقارنة:**  
+Sanfoundry, *Embedded Systems Questions and Answers – Types of Buffers*.  
+الرابط: [https://www.sanfoundry.com/embedded-systems-questions-answers-types-buffers/](https://www.sanfoundry.com/embedded-systems-questions-answers-types-buffers/)
+
+---
+
 ## المراجع
-- EmbedJournal. (2024). *Implementing Circular Buffer in C*. https://embedjournal.com/implementing-circular-buffer-embedded-c/
+1. EmbedJournal. (2024). *Implementing Circular Buffer in C*.  
+   [https://embedjournal.com/implementing-circular-buffer-embedded-c/](https://embedjournal.com/implementing-circular-buffer-embedded-c/)
+
+2. Sanfoundry. *Embedded Systems Questions and Answers – Types of Buffers*. (مصدر جدول المقارنة).  
+   [https://www.sanfoundry.com/embedded-systems-questions-answers-types-buffers/](https://www.sanfoundry.com/embedded-systems-questions-answers-types-buffers/)
